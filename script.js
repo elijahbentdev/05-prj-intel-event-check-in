@@ -4,7 +4,7 @@ const nameInput = document.getElementById("attendeeName");
 const teamselect = document.getElementById("teamSelect");
 
  //Track attendance
-let count = 0;
+ et count = 0;
 const maxCount =50;
 
  // Handle form submission
