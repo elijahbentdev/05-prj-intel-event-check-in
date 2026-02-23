@@ -30,7 +30,7 @@ document.querySelector(".container").appendChild(listContainer);
 
 const attendeeUl = document.getElementById("attendeeUl");
 
-// Render any saved attendees to the list on load
+// Display any saved attendees to the list on load
 attendeeListArray.forEach(person => {
   const li = document.createElement("li");
   li.textContent = `👤 ${person.name} - ${person.team}`;
@@ -84,7 +84,31 @@ form.addEventListener("submit", function (event) {
   attendeeUl.prepend(li); 
   
   // Show welcome message
-  const message = `🎉 Welcome, ${name} from ${teamName}`;  
+  let message = `🎉 Welcome, ${name} from ${teamName}!`;  
+
+  //Celebration Feature
+  if (count >= maxCount) {
+    let winningTeam = "";
+    let highestScore = -1;
+
+    // Check which team has the most points
+    ["water", "zero", "power"].forEach(t => {
+      let tCount = parseInt(localStorage.getItem(t + "Count")) || 0;
+      if (tCount > highestScore) {
+        highestScore = tCount;
+        winningTeam = document.querySelector(`option[value="${t}"]`).text;
+      }
+    });
+
+    message = `🎊 GOAL REACHED! The winner is ${winningTeam} with ${highestScore} check-ins! 🎊`;
+    
+    // Disable the check-in button
+    const btn = document.getElementById("checkInBtn");
+    btn.disabled = true; 
+    btn.style.opacity = "0.5";
+    btn.style.cursor = "not-allowed";
+  }
+  
   console.log(message);
 
   const greetingElement = document.getElementById("greeting");
