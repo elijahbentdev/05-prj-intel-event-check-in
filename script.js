@@ -54,6 +54,9 @@ form.addEventListener("submit", function (event) {
   // Increment count
   count++;
   console.log("Total check-ins:", count);
+  
+  //Save to locaL Storage
+  localStorage.setItem("totalCount", count);
 
   // Update progress bar
   const percentage = Math.round((count / maxCount) * 100) + "%";
@@ -67,6 +70,19 @@ form.addEventListener("submit", function (event) {
   const teamCounter = document.getElementById(team + "Count");
   teamCounter.textContent = parseInt(teamCounter.textContent) + 1;
 
+  // Save team count to local storage
+  localStorage.setItem(team + "Count", teamCounter.textContent);
+
+  // Update Attendee List
+  attendeeListArray.push({ name: name, team: teamName });
+  localStorage.setItem("attendeeList", JSON.stringify(attendeeListArray));
+
+  const li = document.createElement("li");
+  li.textContent = `👤 ${name} - ${teamName}`;
+  li.style.padding = "8px 0";
+  li.style.borderBottom = "1px solid #e2e8f0";
+  attendeeUl.prepend(li); 
+  
   // Show welcome message
   const message = `🎉 Welcome, ${name} from ${teamName}`;  
   console.log(message);
