@@ -3,13 +3,46 @@ const form = document.getElementById("checkInForm");
 const nameInput = document.getElementById("attendeeName");
 const teamselect = document.getElementById("teamSelect");
 
-// Track attendance
-let count = 0;
+//Load saved data
+let count = parseInt(localStorage.getItem("totalCount")) || 0;
 const maxCount = 50;
+
+// Update the overall count and progress bar on load
+document.getElementById("attendeeCount").textContent = count;
+document.getElementById("progressBar").style.width = (count / maxCount) * 100 + "%";
+
+// Update the team counts from memory on load
+["water", "zero", "power"].forEach(t => {
+  const savedTeamCount = localStorage.getItem(t + "Count") || 0;
+  if (document.getElementById(t + "Count")) {
+      document.getElementById(t + "Count").textContent = savedTeamCount;
+  }
+});
+
+//Setup Attendee List
+let attendeeListArray = JSON.parse(localStorage.getItem("attendeeList")) || [];
+
+// Create the list HTML dynamically and add it to the page
+const listContainer = document.createElement("div");
+listContainer.className = "team-stats"; 
+listContainer.innerHTML = "<h3>Recent Check-Ins</h3><ul id='attendeeUl' style='list-style: none; text-align: left; padding: 0;'></ul>";
+document.querySelector(".container").appendChild(listContainer);
+
+const attendeeUl = document.getElementById("attendeeUl");
+
+// Render any saved attendees to the list on load
+attendeeListArray.forEach(person => {
+  const li = document.createElement("li");
+  li.textContent = `👤 ${person.name} - ${person.team}`;
+  li.style.padding = "8px 0";
+  li.style.borderBottom = "1px solid #e2e8f0";
+  attendeeUl.appendChild(li);
+});
 
 // Handle form submission
 form.addEventListener("submit", function (event) { 
   event.preventDefault();
+  if (count >= maxCount) return;
 
   // Get form values
   const name = nameInput.value;
