@@ -27,7 +27,7 @@ form.addEventListener("submit", function (event) {
   console.log(`Progress: ${percentage}`);
 
   // Update team counter
-  const teamCounter = document.getElementById(team + "count");
+  const teamCounter = document.getElementById(team + "Count");
   teamCounter.textContent = parseInt(teamCounter.textContent) + 1;
 
   // Show welcome message
