@@ -30,14 +30,19 @@ form.addEventListener("submit", function (event) {
   // Show the updated total count on page
   document.getElementById("attendeeCount").textContent = count;
 
-
-  // Update team counter
+  //Update team counter
   const teamCounter = document.getElementById(team + "Count");
   teamCounter.textContent = parseInt(teamCounter.textContent) + 1;
 
   // Show welcome message
   const message = `🎉 Welcome, ${name} from ${teamName}`;  
   console.log(message);
+
+  const greetingElement = document.getElementById("greeting");
+  greetingElement.textContent = message;
+  greetingElement.style.display = "block";
+  greetingElement.classList.add("success-message");
   
+  //clear the form for the next attendee
   form.reset();
 });
